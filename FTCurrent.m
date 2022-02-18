@@ -5,10 +5,10 @@ function [ Jx ] = FTCurrent( k0, er, KX, KY, L, W )
     % Create meshgrid
     [ kx, ky ] = meshgrid(KX, KY);
     % Calculate keq
-    keq = (kx + ky)/2;
+    keq = k0 * sqrt(er);
     % Calculate FT
     T = sinc(ky * W / (2*pi));
-    L = 2*keq .* (cos(kx * L/2) - cos(keq * L/2)) ./...
+    L = 2*keq * (cos(kx * L/2) - cos(keq * L/2)) ./...
         ( (keq.^2 - kx.^2) .* sin(keq * L/2) );
     Jx = T .* L;
 end
