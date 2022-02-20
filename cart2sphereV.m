@@ -1,7 +1,7 @@
 function [ Asph ] = cart2sphereV( A, TH, PH )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-%   Note: fix documentation for cart2sphere routine
+%   Note: fix documentation of cart2sphere routine
     %% Extract length of theta and phi
     TH_l = size(TH, 2);
     PH_l = size(PH, 1);

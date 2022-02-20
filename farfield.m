@@ -1,7 +1,7 @@
 function [ E ] = farfield( k0, R_FF, TH, PH, KZ, ej_SGF, Jx )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
-%   Note: fix documentation for farfield routine
+%   Note: fix documentation of farfield routine
     %% Calculate product of SGF and spatial current distribution
     SGF_JX = zeros( size(ej_SGF) );
     for i = 1:3
