@@ -4,7 +4,7 @@ function [ Asph ] = cart2sphereV( A, TH, PH )
 %   Note: fix documentation for cart2sphere routine
     %% Extract length of theta and phi
     TH_l = size(TH, 2);
-    PH_l = size(PH, 2);
+    PH_l = size(PH, 1);
     %% Define transformation matrix
     TMatrix = [(sin(TH) .* cos(PH))   (sin(TH) .* sin(PH))      cos(TH);
                (cos(TH) .* cos(PH))   (cos(TH) .* sin(PH))     -sin(TH);

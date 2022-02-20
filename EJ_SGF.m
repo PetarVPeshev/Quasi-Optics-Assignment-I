@@ -15,21 +15,19 @@ function [ ej_SGF ] = EJ_SGF( er, k, kx, ky )
 %   columns of the SGF matrix.
 %   Note: fix documentation of EJ_SGF routine
     %% Extract wave number x and y-component length
-    kx_l = length(kx);
-    ky_l = length(ky);
-    %% Create meshgrid
-    [ KX, KY ] = meshgrid(kx, ky);
+    kx_l = size(kx, 2);
+    ky_l = size(ky, 1);
     %% Constants
     e0 = 8.8541878128e-12;      % Permittivity of free space [F/m]
     u0 = 4*pi*1e-7;             % Permeability of free space [H/m]
     %% Calculate wave impedance
     Z = sqrt(u0 / (e0*er));
     %% Calculate z-component of wave number
-    kz = -1j*sqrt(-(k.^2 - KX.^2 - KY.^2));
+    kz = -1j*sqrt(-(k.^2 - kx.^2 - ky.^2));
     %% Calcualte Spectral Green's Functions (SGF)
-    G = [(k^2 - KX.^2) (-KX .* KY) (-KX .* kz);
-         (-KY .* KX) (k^2 - KY.^2) (-KY .* kz);
-         (-kz .* KX) (-kz .* KY) (k^2 - kz.^2)];
+    G = [(k^2 - kx.^2) (-kx .* ky) (-kx .* kz);
+         (-ky .* kx) (k^2 - ky.^2) (-ky .* kz);
+         (-kz .* kx) (-kz .* ky) (k^2 - kz.^2)];
     ej_SGF = -Z ./ (2 * k .* kz) .* ones(kx_l, ky_l, 3, 3);
     for i = 1:3
         for n = 1:3
