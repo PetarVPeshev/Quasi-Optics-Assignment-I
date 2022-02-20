@@ -1,0 +1,7 @@
+# ignore all asv files
+*.asv
+# ignore assignment file
+QO_2022_assignment1_SGF.mlx
+# ignore test routines
+farfield_t.m
+card_2_sphere.m
