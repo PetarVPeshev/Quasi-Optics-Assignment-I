@@ -1,7 +1,12 @@
 function [ Jx ] = FTCurrent( k0, er, KX, KY, L, W )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-%   Note: fix documentation of FTCurrent routine
+%FTCurrent This function computes the Fourier Transform of the electric
+%current
+%   The function takes the relative permittivity of the medium, the
+%   magnitude of the wave number, meshgrid of the x and y-components of the
+%   wave number, length, and width of a dipole antenna as inputs.
+%   It outputs the Fourier Transform (FT) of the electric current density
+%   of the dipole antenna in 2D matrix corresponding to the x and
+%   y-component meshgrid of the wave number.
     %% Calculate keq
     keq = k0 * sqrt(er);
     %% Calculate FT

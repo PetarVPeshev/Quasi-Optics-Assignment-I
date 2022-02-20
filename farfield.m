@@ -1,7 +1,16 @@
 function [ E ] = farfield( k0, R_FF, TH, PH, KZ, ej_SGF, Jx )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-%   Note: fix documentation of farfield routine
+%farfield This function computes the electric far-field of an antenna
+%   The function takes the magnitude of the wave number, an array of the
+%   radial distance, a meshgrid of the theta and phi spherical coordinates,
+%   an array of the z-component of the wave number, a 4D matrix of the
+%   Spectral Green's Function (SGF) of the electric field due to electric
+%   current (dimensions 1 and 2 corresponding to a meshgrid of the x and
+%   y-components of the wave number, and dimensions 3 and 4 representing
+%   the dyadic tensor product), and a meshgrid of the Fourier Transform of
+%   the electric current as inputs.
+%   It outputs the electric field in spherical coordinates in a 4D matrix
+%   with dimensions 1 and 2 corresponding to the theta and phi meshgrid,
+%   and dimensions 3 and 4 representing the dyadic tensor product.
     %% Calculate product of SGF and spatial current distribution
     SGF_JX = zeros( size(ej_SGF) );
     for i = 1:3

@@ -1,14 +1,21 @@
 function [ Asph ] = cart2sphereV( A, TH, PH )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
-%   Note: fix documentation of cart2sphere routine
+%cart2sphereV This function converts a vector from cartesian to spherical
+%coordinates
+%   The function takes the vector in a 3D matrix (dimension 1 and 2
+%   representing a meshgrid of values corresponding to surface points, and
+%   dimension 3 representing the x, y, and z-components of the vector), and
+%   a meshgrid of the theta and phi spherical coordinates as inputs.
+%   It outputs the vector in spherical coordinates in a 3D matrix with
+%   dimensions 1 and 2 corresponding to the theta and phi meshgrid, and
+%   dimension 3 corresponding to the spherical coordinates vector
+%   components.
     %% Extract length of theta and phi
     TH_l = size(TH, 2);
     PH_l = size(PH, 1);
     %% Define transformation matrix
     TMatrix = [(sin(TH) .* cos(PH))   (sin(TH) .* sin(PH))      cos(TH);
                (cos(TH) .* cos(PH))   (cos(TH) .* sin(PH))     -sin(TH);
-                     -sin(PH)                cos(PH)        zeros(TH_l, PH_l)];
+                     -sin(PH)                cos(PH)     zeros(TH_l, PH_l)];
     %% Partition transformation matrix
     TM = zeros(TH_l, PH_l, 3, 3);
     for i = 1:3
