@@ -1,0 +1,5 @@
+# ignore all asv files
+*.asv
+# ignore test routines
+farfield_t.m
+card_2_sphere.m
