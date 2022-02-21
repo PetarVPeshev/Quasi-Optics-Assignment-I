@@ -3,17 +3,21 @@ clear;
 clc;
 
 %% Constants
+% Index
+N = 500;                        % Number of points
+% Field
+f = 30e9;                       % Frequency of source [Hz]
+kx_max = 3;                     % Maximum x-component of the wave number
+% Medium
 er = 1;                         % Relative permittivity
 c = physconst('LightSpeed');    % Speed of light [m/s]
 
 %% Parameters
-N = 500;                        % Number of points
-f = 30e9;                       % Frequency of source [Hz]
 wlen = c / f;                   % Wavelength [m]
 k0 = 2*pi / wlen;               % Magnitude of wave number [rad/m]
 
 %% x and y-Components of Wave Number
-kx = k0 * linspace(eps, 3, N);
+kx = k0 * linspace(eps, kx_max, N);
 ky = zeros( 1, length(kx) );
 [ KX, KY ] = meshgrid(kx, ky);
 
