@@ -13,8 +13,8 @@ f = 30e9;                       % Frequency of source [Hz]
 R = 5;                          % Radial distance [m]
 kx_max = 3;                     % Maximum x-component of the wave number
 % Frequency sweep
-fmin = 8e9;                     % Min frequency for directivity [Hz]
-fmax = 20e9;                    % Max frequency for directivity [Hz]
+fmin = 20e9;                     % Min frequency for directivity [Hz]
+fmax = 40e9;                    % Max frequency for directivity [Hz]
 % Medium
 er = 1;                         % Relative permittivity
 c = physconst('LightSpeed');    % Speed of light [m/s]
@@ -29,9 +29,9 @@ w = wlen / 40;                  % Width of antenna dipole [m]
 ff = linspace(fmin, fmax, N);
 
 %% Theta and Phi-Components of Spherical Coordinates
-th = linspace(0, pi / 2, N);
+th = linspace(eps, pi, N);
 dth = th(2) - th(1);
-ph = linspace(0, 2 * pi, N);
+ph = linspace(eps, 2 * pi, N);
 dph = ph(2) - ph(1);
 [ TH, PH ] = meshgrid(th, ph);
 
@@ -69,10 +69,12 @@ ylabel('E_{t} [dB]');
 ylim([-40 0]);
 
 %% Interpolate Data for Smoother Surface
-th_inter = linspace(0, pi / 2, N * 5);
-ph_inter = linspace(0, pi, N * 5);
+th_inter = linspace(eps, pi, N * 5);
+ph_inter = linspace(eps, 2 * pi, N * 5);
 [ TH_inter, PH_inter ] = meshgrid(th_inter, ph_inter);
 Eth_inter = interp2(TH, PH, E(:, :, 2), TH_inter, PH_inter, 'spline');
+Ephi_inter = interp2(TH, PH, E(:, :, 3), TH_inter, PH_inter, 'spline');
+E_inter = sqrt( abs( Eth_inter ).^2 + abs( Ephi_inter ).^2 );
 
 %% UV Representation Coordinates
 U = sin(TH_inter) .* cos(PH_inter);
@@ -80,8 +82,8 @@ V = sin(TH_inter) .* sin(PH_inter);
 
 %% Plot UV Representation of Far-Field
 figure();
-surface(U, V, 20*log10( abs(Eth_inter) ) - ...
-        max( max( 20*log10( abs(Eth_inter) ) ) ), 'LineStyle', 'none' );
+surface(U, V, 20*log10( abs(E_inter) ) - ...
+        max( max( 20*log10( abs(E_inter) ) ) ), 'LineStyle', 'none' );
 grid on;
 colormap('jet');
 colorbar;
@@ -92,7 +94,7 @@ ylabel('V');
 zlabel('|E_{\theta}| [dB]');
 zlim([-10 0]);
 xticks((-1 : 0.25 : 1));
-yticks((0 : 0.25 : 1));
+yticks((-1 : 0.25 : 1));
 
 %% Evaluate Directivity as a Function of Frequency at Broadside
 Dir = zeros(1, length(ff));
@@ -128,4 +130,5 @@ plot(ff * 1e-9, 10*log10( Dir ) - max( 10*log10( Dir ) ), 'LineWidth', 3);
 grid on;
 xlabel('f [GHz]');
 ylabel(['D( \theta = 0' char(176) ' , \phi = 0' char(176) ' )']);
-ylim([-7 0]);
+ylim([-11 0]);
+xlim([20 40]);
