@@ -8,5 +8,8 @@
 # ignore assignment file
 QO_2022_assignment1_SGF.mlx
 # ignore test routines
+FTCurrent_t.m
+EJ_SGF_t.m
 farfield_t.m
 card_2_sphere.m
+ElementaryElectricSource_t.m
