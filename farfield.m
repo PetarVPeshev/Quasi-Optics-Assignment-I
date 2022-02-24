@@ -11,15 +11,15 @@ function [ E ] = farfield( k0, R_FF, TH, PH, KZ, ej_SGF, Jx )
 %   It outputs the electric field in spherical coordinates in a 4D matrix
 %   with dimensions 1 and 2 corresponding to the theta and phi meshgrid,
 %   and dimensions 3 and 4 representing the dyadic tensor product.
-    %% Calculate product of SGF and spatial current distribution
+    %% Calculate Product of SGF and Spatial Current Distribution
     SGF_JX = zeros( size(ej_SGF) );
     for i = 1:3
         for n = 1:3
-            SGF_JX(:, :, i, n) = 1j * KZ .* ej_SGF(:, :, i, n) .* Jx;
+            SGF_JX(:, :, i, n) = 1j * KZ .* ej_SGF(:, :, i, n) .* Jx(:, :, n);
         end
     end
-    %% Convert to spherical coordinates
+    %% Convert to Spherical Coordinates
     SGF_JX_sph = cart2sphereV(squeeze( SGF_JX(:, :, 1, :) ), TH, PH);
-    %% Calculate total electric field
+    %% Calculate Total Electric Field
     E = SGF_JX_sph .* exp(-1j * k0 * R_FF) ./ (2*pi * R_FF);
 end
