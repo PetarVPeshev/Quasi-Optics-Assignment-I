@@ -14,7 +14,7 @@ R = 5;                          % Radial distance [m]
 kx_max = 3;                     % Maximum x-component of the wave number
 % Frequency sweep
 fmin = 20e9;                     % Min frequency for directivity [Hz]
-fmax = 40e9;                    % Max frequency for directivity [Hz]
+fmax = 50e9;                    % Max frequency for directivity [Hz]
 % Medium
 er = 1;                         % Relative permittivity
 c = physconst('LightSpeed');    % Speed of light [m/s]
@@ -36,10 +36,9 @@ dph = ph(2) - ph(1);
 [ TH, PH ] = meshgrid(th, ph);
 
 %% x, y, and z-Components of Wave Number
-kx = k0 * linspace(eps, kx_max, N);
-ky = zeros( 1, length(kx) );
-kz = -1j * sqrt( -(k0^2 - kx.^2 - ky.^2) );
-[ KX, KY ] = meshgrid(kx, ky);
+KX = k0 * sin(TH) .* cos(PH);
+KY = k0 * sin(TH) .* sin(PH);
+kz = -1j * sqrt( -(k0^2 - KX.^2 - KY.^2) );
 
 %% Calculate Spectral Green's Function (SGF)
 ej_SGF = EJ_SGF(er, k0, KX, KY);
@@ -66,7 +65,9 @@ legend(['\phi = 0' char(176)], ['\phi = 45' char(176)], ...
        ['\phi = 90' char(176)]);
 xlabel('\theta [deg]');
 ylabel('E_{t} [dB]');
+xlim([0 180]);
 ylim([-40 0]);
+xticks((0 : 10 : 180));
 
 %% Interpolate Data for Smoother Surface
 th_inter = linspace(eps, pi, N * 5);
@@ -88,7 +89,7 @@ grid on;
 colormap('jet');
 colorbar;
 caxis([-10, 0]);
-view(-37.5, 30);
+view(0, 90);
 xlabel('U');
 ylabel('V');
 zlabel('|E_{\theta}| [dB]');
@@ -104,10 +105,9 @@ for i = 1 : length(ff)
     k0_f = 2*pi / wlen_f;     % Magnitude of wave number [rad/m]
     
     % x, y, and z-Components of Wave Number
-    kx_f = k0_f * linspace(eps, kx_max, N);
-    ky_f = zeros( 1, length(kx_f) );
-    kz_f = -1j * sqrt( -(k0_f^2 - kx_f.^2 - ky_f.^2) );
-    [ KX_f, KY_f ] = meshgrid(kx_f, ky_f);
+    KX_f = k0_f * sin(TH) .* cos(PH);
+    KY_f = k0_f * sin(TH) .* sin(PH);
+    kz_f = -1j * sqrt( -(k0_f^2 - KX_f.^2 - KY_f.^2) );
 
     % Calculate Spectral Green's Function (SGF)
     ej_SGF_f = EJ_SGF(er, k0_f, KX_f, KY_f);
@@ -126,9 +126,9 @@ end
 
 %% Plot Directivity at Broadside as Function of Frequency
 figure();
-plot(ff * 1e-9, 10*log10( Dir ) - max( 10*log10( Dir ) ), 'LineWidth', 3);
+plot(ff * 1e-9, Dir, 'LineWidth', 3);
 grid on;
 xlabel('f [GHz]');
 ylabel(['D( \theta = 0' char(176) ' , \phi = 0' char(176) ' )']);
-ylim([-11 0]);
-xlim([20 40]);
+ylim([0 2]);
+xlim([fmin*1e-9 fmax*1e-9]);

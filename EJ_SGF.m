@@ -16,7 +16,7 @@ function [ ej_SGF ] = EJ_SGF( er, k, kx, ky )
     %% Calculate wave impedance
     Z = sqrt(u0 / (e0*er));
     %% Calculate z-component of wave number
-    kz = -1j*sqrt(-(k.^2 - kx.^2 - ky.^2));
+    kz = -1j * sqrt( -(k.^2 - kx.^2 - ky.^2) );
     %% Calcualte Spectral Green's Functions (SGF)
     G = [(k^2 - kx.^2) (-kx .* ky) (-kx .* kz);
          (-ky .* kx) (k^2 - ky.^2) (-ky .* kz);

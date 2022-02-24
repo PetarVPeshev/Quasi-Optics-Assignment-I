@@ -7,11 +7,15 @@ function [ Jx ] = FTCurrent( k0, er, KX, KY, L, W )
 %   It outputs the Fourier Transform (FT) of the electric current density
 %   of the dipole antenna in 2D matrix corresponding to the x and
 %   y-component meshgrid of the wave number.
+    %% Extract x and y-Coordinates Wave Number Length
+    kx_l = size(KX, 2);
+    ky_l = size(KY, 1);
     %% Calculate keq
     keq = k0 * sqrt(er);
     %% Calculate FT
     T = sinc(KY * W / (2*pi));
-    L = 2*keq * (cos(KX * L/2) - cos(keq * L/2)) ./...
+    L = 2 * keq .* (cos(KX * L/2) - cos(keq * L/2)) ./...
         ( (keq.^2 - KX.^2) .* sin(keq * L/2) );
-    Jx = T .* L;
+    Jx = zeros(kx_l, ky_l, 3);
+    Jx(:, :, 1) = T .* L;
 end

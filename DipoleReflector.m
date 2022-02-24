@@ -38,10 +38,9 @@ dph = ph(2) - ph(1);
 [ TH, PH ] = meshgrid(th, ph);
 
 %% x, y, and z-Components of Wave Number
-kx = k0 * linspace(eps, kx_max, N);
-ky = zeros( 1, length(kx) );
-kz = -1j * sqrt( -(k0^2 - kx.^2 - ky.^2) );
-[ KX, KY ] = meshgrid(kx, ky);
+KX = k0 * sin(TH) .* cos(PH);
+KY = k0 * sin(TH) .* sin(PH);
+kz = -1j * sqrt( -(k0^2 - KX.^2 - KY.^2) );
 
 %% Calculate Spectral Green's Function (SGF)
 ej_SGF = EJ_SGF(er, k0, KX, KY);
@@ -68,7 +67,9 @@ legend(['\phi = 0' char(176)], ['\phi = 45' char(176)], ...
        ['\phi = 90' char(176)]);
 xlabel('\theta [deg]');
 ylabel('E_{t} [dB]');
+xlim([0 180]);
 ylim([-40 0]);
+xticks((0 : 10 : 180));
 
 %% Interpolate Data for Smoother Surface
 th_inter = linspace(eps, pi, N * 5);
@@ -90,7 +91,7 @@ grid on;
 colormap('jet');
 colorbar;
 caxis([-10, 0]);
-view(-37.5, 30);
+view(0, 90);
 xlabel('U');
 ylabel('V');
 zlabel('|E_{\theta}| [dB]');
@@ -115,8 +116,8 @@ end
 
 %% Plot Directivity at Broadside as Function of Frequency
 figure();
-plot(hh / wlen, 10*log10( Dir ) - max( 10*log10( Dir ) ), 'LineWidth', 3);
+plot(hh / wlen, Dir, 'LineWidth', 3);
 grid on;
 xlabel('h / \lambda_{0}');
 ylabel(['D( \theta = 0' char(176) ' , \phi = 0' char(176) ' )']);
-ylim([-40 0]);
+ylim([0 1.2]);
