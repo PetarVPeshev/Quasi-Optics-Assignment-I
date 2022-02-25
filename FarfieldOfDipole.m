@@ -13,8 +13,8 @@ f = 30e9;                       % Frequency of source [Hz]
 R = 5;                          % Radial distance [m]
 kx_max = 3;                     % Maximum x-component of the wave number
 % Frequency sweep
-fmin = 20e9;                     % Min frequency for directivity [Hz]
-fmax = 50e9;                    % Max frequency for directivity [Hz]
+fmin = 50e9;                     % Min frequency for directivity [Hz]
+fmax = 200e9;                    % Max frequency for directivity [Hz]
 % Medium
 er = 1;                         % Relative permittivity
 c = physconst('LightSpeed');    % Speed of light [m/s]
@@ -130,5 +130,5 @@ plot(ff * 1e-9, Dir, 'LineWidth', 3);
 grid on;
 xlabel('f [GHz]');
 ylabel(['D( \theta = 0' char(176) ' , \phi = 0' char(176) ' )']);
-ylim([0 2]);
+ylim([0 10]);
 xlim([fmin*1e-9 fmax*1e-9]);
