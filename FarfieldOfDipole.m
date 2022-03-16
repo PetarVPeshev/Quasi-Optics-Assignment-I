@@ -47,7 +47,8 @@ ej_SGF = EJ_SGF(er, k0, KX, KY);
 Jx = FTCurrent(k0, er, KX, KY, l, w);
 
 %% Calculate Electric Far-Field
-E = farfield(k0, R, TH, PH, kz, ej_SGF, Jx);
+E = farfield(k0, R, kz, ej_SGF, Jx);
+E = convertCarToSph(E, TH, PH);
 Et = sqrt( abs( E(:, :, 2) ).^2 + abs( E(:, :, 3) ).^2 );
 
 %% Plot the Total Electric Field in Phi 0, 45, 90 degree planes
@@ -116,7 +117,8 @@ for i = 1 : length(ff)
     Jx_f = FTCurrent(k0_f, er, KX_f, KY_f, l, w);
 
     % Calculate Electric Far-Field
-    E_f = farfield(k0_f, R, TH, PH, kz_f, ej_SGF_f, Jx_f);
+    E_f = farfield(k0_f, R, kz_f, ej_SGF_f, Jx_f);
+    E_f = convertCarToSph(E_f, TH, PH);
     Et_f = sqrt( abs( E_f(:, :, 2) ).^2 + abs( E_f(:, :, 3) ).^2 );
 
     % Calculate Directivity
