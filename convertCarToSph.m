@@ -1,4 +1,4 @@
-function [ Asph ] = cart2sphereV( A, TH, PH )
+function [ Asph ] = convertCarToSph( A, TH, PH )
 %cart2sphereV This function converts a vector from cartesian to spherical
 %coordinates
 %   The function takes the vector in a 3D matrix (dimension 1 and 2

@@ -1,4 +1,4 @@
-function [ E ] = farfield( k0, R_FF, TH, PH, KZ, ej_SGF, Jx )
+function [ E ] = farfield( k0, R_FF, KZ, ej_SGF, Jx )
 %farfield This function computes the electric far-field of an antenna
 %   The function takes the magnitude of the wave number, an array of the
 %   radial distance, a meshgrid of the theta and phi spherical coordinates,
@@ -11,15 +11,13 @@ function [ E ] = farfield( k0, R_FF, TH, PH, KZ, ej_SGF, Jx )
 %   It outputs the electric field in spherical coordinates in a 4D matrix
 %   with dimensions 1 and 2 corresponding to the theta and phi meshgrid,
 %   and dimensions 3 and 4 representing the dyadic tensor product.
+%   Note: use matrix multiplication instead of for loop
     %% Calculate Product of SGF and Spatial Current Distribution
-    SGF_JX = zeros( size(ej_SGF) );
+    E = zeros( size(Jx) );
     for i = 1:3
         for n = 1:3
-            SGF_JX(:, :, i, n) = 1j * KZ .* ej_SGF(:, :, i, n) .* Jx(:, :, n);
+            E(:, :, i) = E(:, :, i) + 1j .* KZ .* ej_SGF(:, :, i, n) .* ...
+                      Jx(:, :, n) * exp(-1j * k0 * R_FF) / (2 * pi * R_FF);
         end
     end
-    %% Convert to Spherical Coordinates
-    SGF_JX_sph = cart2sphereV(squeeze( SGF_JX(:, :, 1, :) ), TH, PH);
-    %% Calculate Total Electric Field
-    E = SGF_JX_sph .* exp(-1j * k0 * R_FF) ./ (2*pi * R_FF);
 end
